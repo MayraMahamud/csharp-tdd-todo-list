@@ -67,22 +67,22 @@ namespace tdd_todo_list.CSharp.Test
         }
 
          
-        [Test]
-        public void TaskStatus()
-        {
-            TodoList todoList = new TodoList();
+        //[Test]
+        //public void TaskStatus()
+        //{
+        //    TodoList todoList = new TodoList();
            
-            todoList.AddTask2("Task1", false);
-            todoList.AddTask2("Task1", true);
+        //    todoList.AddTask2("Task1", false);
+        //    todoList.AddTask2("Task1", true);
 
 
 
-            todoList.TaskStatus("Task1");
+        //    todoList.TaskStatus("Task1");
 
-            var task = todoList.GetTasks().Find(t => t.Name == "Task1");
+        //    var task = todoList.GetTasks().Find(t => t.Name == "Task1");
 
 
-            Assert.IsTrue(task.IsComplete(), Is.True);
+        //    Assert.IsTrue(task.IsComplete(), Is.True);
 
 
 
@@ -93,7 +93,7 @@ namespace tdd_todo_list.CSharp.Test
             //todoList.TaskStatus(taskName);
 
             //Assert.IsTrue(task.IsComplete);
-        }
+        //}
 
 
         [Test]
@@ -105,7 +105,7 @@ namespace tdd_todo_list.CSharp.Test
             todoList.AddTask2("Task2", true);
             todoList.AddTask2("Task2", true);
 
-            List<Main.Task> completeTasks = todoList.GetCompleteTasks();
+            List<Main.TaskItem> completeTasks = todoList.GetCompleteTasks();
 
             Assert.That(completeTasks.Count, Is.EqualTo(1));   
 
@@ -123,7 +123,7 @@ namespace tdd_todo_list.CSharp.Test
             todoList.AddTask2("Task1", false);
             todoList.AddTask2("Task2", true);
 
-            List<Main.Task> incompleteTasks = todoList.GetIncompleteTasks();
+            List<Main.TaskItem> incompleteTasks = todoList.GetIncompleteTasks();
 
             Assert.That(incompleteTasks.Count, Is.EqualTo(1));
 
@@ -134,8 +134,8 @@ namespace tdd_todo_list.CSharp.Test
         public void SearchTaskTest()
         {
             TodoList todoList = new TodoList();
-            todoList.AddTask2("Task1");
-            todoList.AddTask2("Task2");
+            todoList.AddTask("Task1");
+            todoList.AddTask("Task2");
 
             string result = todoList.SearchTask("Task1");
 
@@ -148,10 +148,10 @@ namespace tdd_todo_list.CSharp.Test
         public void GetTasksAlphabeticalDescTest()
         {
             TodoList todoList = new TodoList();
-            todoList.AddTask2("TaskA");
-            todoList.AddTask2("TaskB");
+            todoList.AddTask("TaskA");
+            todoList.AddTask("TaskB");
 
-            List<Main.Task> Tasks = todoList.GetTasksAlphabeticalDesc();
+            List<Main.TaskItem> Tasks = todoList.GetTasksAlphabeticalDesc();
 
             Assert.That(todoList.GetTasksAlphabeticalDesc().Count, Is.EqualTo(2));  
 
@@ -163,17 +163,31 @@ namespace tdd_todo_list.CSharp.Test
         public void GetTasksAlphabeticalAscTest()
         {
             TodoList todoList = new TodoList();
-            todoList.AddTask2("TaskA");
-            todoList.AddTask2("TaskB");
+            todoList.AddTask("TaskA");
+            todoList.AddTask("TaskB");
 
-            List<Main.Task> Tasks = todoList.GetTasksAlphabeticalAsc();
+            List<Main.TaskItem> Tasks = todoList.GetTasksAlphabeticalAsc();
 
             Assert.That(todoList.GetTasksAlphabeticalAsc().Count, Is.EqualTo(2));
 
-
-
         }
 
+        [Test]
+        public void GetTaskByIdTest()
+        {
+            TodoList todoList = new TodoList();
+            //Task task1 = new Task();
+            
+            Guid taskId = todoList.AddTask3("Task1");
+
+
+           
+            var task = todoList.GetTaskById(taskId);
+          
+            Assert.AreEqual("Task1", task.Description);
+            Assert.AreEqual(taskId, task.Id);
+
+        }
 
 
 

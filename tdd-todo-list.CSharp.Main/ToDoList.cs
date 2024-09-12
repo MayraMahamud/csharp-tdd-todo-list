@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,12 +10,33 @@ namespace tdd_todo_list.CSharp.Main
     public class TodoList
     {
         private List<string> tasks = new List<string>();
-        public List<Task> _tasks = new List<Task>();
+        public List<TaskItem> _tasks = new List<TaskItem>();
+        private int _nextId;
 
-
-        public void AddTask2(string name, bool isComplete = false)
+        public TodoList()
         {
-            _tasks.Add(new Task(name, isComplete));
+            _tasks = new List<TaskItem>();
+            _nextId = 1;
+        }
+
+        public Guid AddTask3(string description)
+        {
+            if (!string.IsNullOrEmpty(description))
+            {
+
+                var task = new TaskItem(description);
+                task.Id = Guid .NewGuid();  
+                _tasks.Add(task);
+                return task.Id;
+
+               
+            } return Guid.Empty;
+
+
+        }
+        public void AddTask2(string name, bool isComplete)
+        {
+            //_tasks.Add(new Task(name, isComplete));
         }
 
         public void AddTask(string task)
@@ -58,14 +80,14 @@ namespace tdd_todo_list.CSharp.Main
             }
         }
 
-        public List<Task> GetCompleteTasks()
+        public List<TaskItem> GetCompleteTasks()
         {
             return _tasks.Where(task => !task.IsComplete).ToList();  
            
 
         }
 
-        public List<Task> GetIncompleteTasks()
+        public List<TaskItem> GetIncompleteTasks()
         {
             return _tasks.Where(task => task.IsComplete).ToList();
 
@@ -97,19 +119,30 @@ namespace tdd_todo_list.CSharp.Main
             return $"Task '{taskName}' not found";  
         }
 
-        public List<Task> GetTasksAlphabeticalDesc() 
+        public List<TaskItem> GetTasksAlphabeticalDesc() 
         {
             return _tasks.OrderByDescending(task => task.Name).ToList();    
         }
 
 
-        public List<Task> GetTasksAlphabeticalAsc()
+        public List<TaskItem> GetTasksAlphabeticalAsc()
         {
             return _tasks.OrderBy(task => task.Name).ToList();
         }
 
 
-
+        public TaskItem GetTaskById(Guid id)
+        {
+            foreach (var task in _tasks) 
+            {
+                if(task.Id == id)
+                {  
+                    return task;
+                }   
+            }
+            return null;
+           
+        }
 
 
 
